@@ -1,0 +1,152 @@
+<html><head><base href="https://websim.creation.engine/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerador de Declaração</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 20px;
+        background-color: #f0f0f0;
+    }
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+    form {
+        display: grid;
+        gap: 10px;
+    }
+    label {
+        font-weight: bold;
+    }
+    input, select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+    #declaracao {
+        margin-top: 20px;
+        border: 1px solid #ddd;
+        padding: 20px;
+        white-space: pre-wrap;
+        background-color: white;
+    }
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+        #declaracao, #declaracao * {
+            visibility: visible;
+        }
+        #declaracao {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Gerador de Declaração</h1>
+    <form id="declaracaoForm">
+        <label for="nomeCompleto">Nome completo:</label>
+        <input type="text" id="nomeCompleto" required>
+        
+        <label for="estadoCivil">Estado Civil:</label>
+        <select id="estadoCivil" required>
+            <option value="">Selecione</option>
+            <option value="Solteiro(a)">Solteiro(a)</option>
+            <option value="Casado(a)">Casado(a)</option>
+            <option value="Divorciado(a)">Divorciado(a)</option>
+            <option value="Viúvo(a)">Viúvo(a)</option>
+        </select>
+        
+        <label for="profissao">Profissão:</label>
+        <input type="text" id="profissao" required>
+        
+        <label for="cpf">CPF:</label>
+        <input type="text" id="cpf" required>
+        
+        <label for="endereco">Endereço Completo:</label>
+        <input type="text" id="endereco" required>
+        
+        <label for="concurso">Concurso:</label>
+        <input type="text" id="concurso" required>
+        
+        <label for="dataTrabalho">Data que trabalhou no Concurso:</label>
+        <input type="date" id="dataTrabalho" required>
+        
+        <label for="funcao">Função:</label>
+        <input type="text" id="funcao" required>
+        
+        <button type="submit">Gerar Declaração</button>
+    </form>
+    
+    <div id="declaracao"></div>
+    
+    <button id="imprimir" style="display:none;">Imprimir Declaração</button>
+</div>
+
+<script>
+document.getElementById('declaracaoForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const nomeCompleto = document.getElementById('nomeCompleto').value;
+    const estadoCivil = document.getElementById('estadoCivil').value;
+    const profissao = document.getElementById('profissao').value;
+    const cpf = document.getElementById('cpf').value;
+    const endereco = document.getElementById('endereco').value;
+    const concurso = document.getElementById('concurso').value;
+    const dataTrabalho = new Date(document.getElementById('dataTrabalho').value);
+    const funcao = document.getElementById('funcao').value;
+    
+    const dataHoje = new Date();
+    
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const dataTrabalhoFormatada = dataTrabalho.toLocaleDateString('pt-BR', options);
+    const dataHojeFormatada = dataHoje.toLocaleDateString('pt-BR', options);
+    
+    const declaracaoText = `DECLARAÇÃO
+
+Eu, ${nomeCompleto}, Estado Civil: ${estadoCivil}, Profissão: ${profissao}, portador do CPF de nº ${cpf}, com Endereço: ${endereco}, DECLARO que trabalhei no Concurso: ${concurso}, no dia ${dataTrabalhoFormatada}, na função de ${funcao}.
+
+Vitória/ES, ${dataHojeFormatada}
+
+
+__________________________
+${nomeCompleto}`;
+    
+    document.getElementById('declaracao').textContent = declaracaoText;
+    document.getElementById('imprimir').style.display = 'block';
+});
+
+document.getElementById('imprimir').addEventListener('click', function() {
+    window.print();
+});
+</script>
+</body>
+</html>
